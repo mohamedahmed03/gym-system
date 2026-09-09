@@ -30,6 +30,10 @@ export interface RegisterResponse {
   success: boolean;
 }
 
+export interface AdminLoginResponse {
+  message: string;
+}
+
 export interface RefreshResponse {
   message: string;
 }
@@ -72,6 +76,19 @@ export class AuthService {
   /**
    * POST /api/auth/logout
    */
+  /**
+   * POST /api/admin/login
+   * Sets the adminAccessToken cookie required for admin-protected routes.
+   */
+  adminLogin(): Observable<AdminLoginResponse> {
+    return this.http.post<AdminLoginResponse>('http://localhost:3000/api/admin/login', {
+      email: 'admin@gym.com',
+      password: 'admin123456',
+    }, {
+      withCredentials: true,
+    });
+  }
+
   logout(): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(`${this.API_BASE}/logout`, {}, {
       withCredentials: true,

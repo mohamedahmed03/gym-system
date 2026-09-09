@@ -12,6 +12,11 @@ export const getDashboard = async (
 
         const stats = await dashboardService.getDashboard(req.user.id);
 
+        // Prevent browser from caching this response (was causing 304 with stale zero data)
+        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
+
         res.status(200).json({ ...stats });
     } catch (error) {
         next(error);

@@ -37,11 +37,6 @@ export const dashboardRoutes: Routes = [
         title: 'Reports',
         loadComponent: () => import('./pages/reports/reports').then(m => m.Reports),
       },
-      {
-        path: 'support',
-        title: 'Support',
-        loadComponent: () => import('./pages/support/support').then(m => m.Support),
-      },
     ],
   },
 ];

@@ -2,6 +2,7 @@ import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { switchMap, catchError, of } from 'rxjs';
 import { AuthService } from '../../../app/services/auth.service';
 
 const REMEMBER_EMAIL_KEY = 'elite_remembered_email';
@@ -59,7 +60,11 @@ export class Login implements OnInit {
       localStorage.removeItem(REMEMBER_EMAIL_KEY);
     }
 
-    this.authService.login({ email: email!, password: password! }).subscribe({
+    this.authService.login({ email: email!, password: password! }).pipe(
+      switchMap(() => this.authService.adminLogin().pipe(
+        catchError(() => of(null)) // admin login failure is non-blocking
+      ))
+    ).subscribe({
       next: () => {
         console.log('[Login] Success!');
         this.isLoading = false;
