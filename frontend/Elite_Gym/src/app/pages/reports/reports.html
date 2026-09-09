@@ -1,1 +1,97 @@
-<p>reports works!</p>
+<div class="reports-page">
+  <div class="header-row">
+    <div>
+      <p class="eyebrow">ANALYTICS</p>
+      <h1 class="page-title">Member Reports</h1>
+    </div>
+    <button class="btn-outline">⬇ Export Data</button>
+  </div>
+
+  @if (loading) {
+    <div>Loading...</div>
+  } @else if (errorMsg) {
+    <div class="error-msg">{{ errorMsg }}</div>
+  }
+
+  <!-- Top Row: Monthly Summary + Recent PRs -->
+  <div class="top-row">
+    <div class="card summary-card">
+      <h3 class="card-title">Monthly Performance Summary</h3>
+      <div class="summary-grid">
+        <div class="summary-box highlight-left">
+          <p class="summary-label">TOTAL VOLUME</p>
+          <p class="summary-value">124,500</p>
+          <p class="summary-unit">lbs</p>
+          <p class="summary-trend">↗️ +12% from last month</p>
+        </div>
+        <div class="summary-box highlight-orange">
+          <p class="summary-label">WORKOUTS LOGGED</p>
+          <p class="summary-value">24 <span class="unit-inline">sessions</span></p>
+          <p class="summary-unit">Avg 1.5 hrs / session</p>
+        </div>
+        <div class="summary-box">
+          <p class="summary-label">ACTIVITY TRENDS</p>
+          <p class="summary-line">Most Active: <span class="highlight-text">Tuesday</span></p>
+          <p class="summary-line">Least Active: <span class="highlight-red">Sunday</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card prs-card">
+      <h3 class="card-title">RECENT PRS</h3>
+      <div class="pr-row">
+        <span>Deadlift</span>
+        <span class="pr-value">405 lbs</span>
+      </div>
+      <div class="pr-row">
+        <span>Bench Press</span>
+        <span class="pr-value">275 lbs</span>
+      </div>
+      <div class="pr-row">
+        <span>Squat</span>
+        <span class="pr-value">365 lbs</span>
+      </div>
+      <button class="btn-outline full-width">View All Records</button>
+    </div>
+  </div>
+
+  <!-- Middle Row: Charts -->
+  <div class="charts-row">
+    <div class="card">
+      <h3 class="card-title">Volume Tracking (6 Months)</h3>
+      <div class="bar-chart">
+        <div class="bar" style="height: 30%"><span class="bar-label">Jan</span></div>
+        <div class="bar" style="height: 40%"><span class="bar-label">Feb</span></div>
+        <div class="bar" style="height: 55%"><span class="bar-label">Mar</span></div>
+        <div class="bar" style="height: 65%"><span class="bar-label">Apr</span></div>
+        <div class="bar" style="height: 80%"><span class="bar-label">May</span></div>
+        <div class="bar bar-active" style="height: 100%"><span class="bar-label">Jun</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Estimated 1RM Trends</h3>
+      <div class="line-chart-placeholder">
+        <svg viewBox="0 0 300 120" class="line-svg">
+          <polyline
+            fill="none"
+            stroke="#c9ff3d"
+            stroke-width="3"
+            points="10,90 60,70 110,80 160,75 210,40 290,15"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Printable Report (from backend) -->
+  <div class="card printable-card-simple">
+    <div class="printable-header">
+      <div>
+        <h3 class="card-title">🖨 Printable Report</h3>
+        <p class="printable-sub">Open a print-ready version of this member's report.</p>
+      </div>
+      <button class="btn-primary" (click)="openPrintableReport()">🖨 Generate PDF</button>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,140 @@
-<p>dashboard works!</p>
+<div class="dashboard-page">
+  <h1 class="page-title">Member Profile Settings</h1>
+  <p class="page-subtitle">Manage your account details, training preferences, and security settings.</p>
+
+  @if (loading) {
+    <div>Loading...</div>
+  } @else if (errorMsg) {
+    <div class="error-msg">{{ errorMsg }}</div>
+  }
+
+  <div class="content-grid">
+    <!-- Left: Profile Card -->
+    <div class="profile-card">
+      <img
+        class="profile-img"
+        [src]="'https://ui-avatars.com/api/?name=' + (memberData?.fullName || 'Member') + '&background=1f2a15&color=c9ff3d&size=150'"
+        alt="profile"
+      />
+      <h2 class="profile-name">{{ memberData?.fullName || 'member name' }}</h2>
+      <p class="profile-email">{{ memberData?.email || '' }}</p>
+      <span class="tier-badge">🏅 {{ memberData?.subscriptionPlan || 'ELITE TIER' }}</span>
+
+      <div class="profile-stats">
+        <div class="stat-row">
+          <span>Member Since</span>
+          <span class="stat-value">{{ memberData?.memberSince || 'Jan 2022' }}</span>
+        </div>
+        <div class="stat-row">
+          <span>Total Workouts</span>
+          <span class="stat-value">{{ memberData?.totalWorkouts || 0 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Info Sections -->
+    <div class="info-sections">
+      <!-- Personal Information -->
+      <div class="info-card">
+        <h3 class="card-title">👤 Personal Information</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" [value]="memberData?.fullName || ''" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" [value]="memberData?.email || ''" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" [value]="memberData?.phone || ''" />
+          </div>
+          <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" [value]="memberData?.dateOfBirth || ''" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Training Preferences -->
+      <div class="info-card">
+        <h3 class="card-title">📈 Training Preferences</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Primary Goal</label>
+            <select>
+              <option>{{ memberData?.primaryGoal || 'Strength & Conditioning' }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Preferred Workout Time</label>
+            <div class="toggle-buttons">
+              <button class="toggle-btn" [class.active]="memberData?.preferredTime !== 'evening'">Morning</button>
+              <button class="toggle-btn" [class.active]="memberData?.preferredTime === 'evening'">Evening</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="focus-areas">
+          <label>Focus Areas</label>
+          <div class="tags">
+            @for (area of (memberData?.focusAreas || ['Powerlifting', 'Mobility']); track area) {
+              <span class="tag active">{{ area }}</span>
+            }
+            <span class="tag add-tag">+ Add Focus</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscription Management -->
+      <div class="info-card">
+        <h3 class="card-title">💳 Subscription Management</h3>
+        <div class="subscription-box">
+          <div class="sub-info">
+            <div class="sub-title-row">
+              <span class="sub-title">{{ memberData?.subscriptionPlan || 'Elite Tier Plan' }}</span>
+              <span class="sub-status">{{ memberData?.subscriptionStatus || 'ACTIVE' }}</span>
+            </div>
+            <p class="sub-detail">Billed {{ memberData?.billingAmount || '$199.00' }} Monthly</p>
+            <p class="sub-detail">Next billing date: <span class="highlight">{{ memberData?.nextBillingDate || 'Oct 15, 2023' }}</span></p>
+          </div>
+          <div class="sub-actions">
+            <button class="btn-outline">Manage</button>
+            <button class="btn-outline-highlight">Upgrade</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div class="info-card">
+        <h3 class="card-title">🛡 Security</h3>
+
+        <div class="security-row">
+          <div>
+            <p class="security-title">Password</p>
+            <p class="security-sub">Last changed 3 months ago</p>
+          </div>
+          <button class="btn-outline">Change Password</button>
+        </div>
+
+        <div class="security-row">
+          <div>
+            <p class="security-title">Two-Factor Authentication</p>
+            <p class="security-sub">Add an extra layer of security to your account.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Save/Discard -->
+      <div class="actions-row">
+        <button class="btn-outline">Discard</button>
+        <button class="btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
