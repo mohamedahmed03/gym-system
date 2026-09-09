@@ -1,4 +1,5 @@
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express, { type Express } from "express";
 import helmet from "helmet";
 import auth from "../routes/auth.js";
@@ -15,6 +16,13 @@ import { notFound } from "../middlewares/notFound.js";
 import { errorHandler } from "../middlewares/error.js";
 
 export const app: Express = express();
+
+// CORS — allow the Angular dev server to send cookies
+app.use(cors({
+    origin: "http://localhost:4200",
+    credentials: true,
+}));
+
 
 // body parser middlewares
 app.use(express.json());
